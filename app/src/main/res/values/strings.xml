@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Movies</string>
+    <string name="sort_popular_movies">Popular movies</string>
+    <string name="sort_top_rated_movies">Top rated movies</string>
+    <string name="movie_poster">Movie poster</string>
+    <string name="overview_heading">Overview</string>
+    <string name="connectivity_message">Network Not Available</string>
+</resources>
