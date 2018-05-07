@@ -1,5 +1,6 @@
 package com.example.work.movies;
 
+
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +24,9 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
+   /* Resources:
+    Udacity Android Developer NanoDegree Content
+*/
     ArrayList<Movie> movieList;
     GridView gridView;
     Movie movie;
@@ -82,13 +86,14 @@ public class MainActivity extends AppCompatActivity {
             String urlResponse = null;
 
             try {
-                url = new URL(params[0]);
+               url = new URL(params[0]);
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
                 // Log.e(TAG,"EXCEPTION MESSAGE: ",e );
             }
             try {
+                assert url != null;
                 urlResponse = NetworkUtils.getResponseFromHttpUrl(url);
                 // Log.i(TAG, "CONTENTS OF RESPONSE: " + response);
 

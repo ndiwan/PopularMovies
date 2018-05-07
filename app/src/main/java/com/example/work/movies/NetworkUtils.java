@@ -14,20 +14,21 @@ import java.net.URL;
 import java.util.Scanner;
 
 public class NetworkUtils {
-     private static final String TAG= NetworkUtils.class.getSimpleName();
 
-    public static URL buildUrl(String sortCategory){
+    private static final String TAG = NetworkUtils.class.getSimpleName();
 
-        Uri builtUri= Uri.parse(Constants.MOVIE_BASE_URL).buildUpon()
+    public static URL buildUrl(String sortCategory) {
+
+        Uri builtUri = Uri.parse(Constants.MOVIE_BASE_URL).buildUpon()
                 .appendQueryParameter(Constants.SORT_BY, sortCategory)
                 .appendQueryParameter(Constants.API_KEY, Constants.api_key_value)
                 .build();
 
-        URL url= null;
+        URL url = null;
 
         try {
-            url= new URL(builtUri.toString());
-        }catch (MalformedURLException e){
+            url = new URL(builtUri.toString());
+        } catch (MalformedURLException e) {
             e.printStackTrace();
         }
         // Log.i(TAG, "DISPLAY URL: " + url);
@@ -35,9 +36,11 @@ public class NetworkUtils {
     }
 
 
-    public static String getResponseFromHttpUrl(URL url)throws IOException {
-        HttpURLConnection urlConnection=(HttpURLConnection)url.openConnection();
-        try{
+    public static String getResponseFromHttpUrl(URL url) throws IOException {
+        HttpURLConnection urlConnection = null;
+
+        try {
+            urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setReadTimeout(10000);
             urlConnection.setConnectTimeout(15000);
             urlConnection.connect();
@@ -45,21 +48,23 @@ public class NetworkUtils {
             Log.d(TAG, "The response is: " + response);
 
             InputStream in = urlConnection.getInputStream();
-            Scanner scanner= new Scanner(in);
+            Scanner scanner = new Scanner(in);
             scanner.useDelimiter("\\A");
 
-            boolean hasInput= scanner.hasNext();
-            if(hasInput){
+            boolean hasInput = scanner.hasNext();
+            if (hasInput) {
                 return scanner.next();
 
-            }else {
+            } else {
                 return null;
             }
-        }
-        finally {
-            urlConnection.disconnect();
+        } finally {
+            if (urlConnection != null) {
+                urlConnection.disconnect();
+            }
         }
     }
+
     // checks network connection
     public static Boolean isNetworkAvailable(Context context) {
 
@@ -67,11 +72,11 @@ public class NetworkUtils {
             ConnectivityManager connectivityManager
                     = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
+            assert connectivityManager != null;
             NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
 
             return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             // Log.i(TAG, "ERROR: ", e);
             return false;

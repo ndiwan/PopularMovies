@@ -29,6 +29,7 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
             convertView= LayoutInflater.from(getContext()).inflate(R.layout.poster_view,parent,false);
         }
 
+        assert movie != null;
         String posterUrl= Constants.POSTER_BASE_URL+Constants.POSTER_SIZE_SMALL+movie.getPoster_path();
 
         Picasso.with(getContext())

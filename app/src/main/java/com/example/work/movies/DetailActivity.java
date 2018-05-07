@@ -23,7 +23,7 @@ public class DetailActivity extends AppCompatActivity {
         ImageView poster=findViewById(R.id.posterIv);
 
         Picasso.with(DetailActivity.this)
-                .load("https://image.tmdb.org/t/p/"+Constants.POSTER_SIZE_SMALL+ movie.getPoster_path())
+                .load(Constants.POSTER_BASE_URL+Constants.POSTER_SIZE_SMALL+ movie.getPoster_path())
                 .into(poster);
 
         title.setText(movie.getOriginal_title());
