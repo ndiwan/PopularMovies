@@ -24,9 +24,9 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-   /* Resources:
-    Udacity Android Developer NanoDegree Content
-*/
+    /* Resources:
+     Udacity Android Developer NanoDegree Content
+ */
     ArrayList<Movie> movieList;
     GridView gridView;
     Movie movie;
@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
             String urlResponse = null;
 
             try {
-               url = new URL(params[0]);
+                url = new URL(params[0]);
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
@@ -108,33 +108,33 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String s) {
-            super.onPostExecute(s);
+            // super.onPostExecute(s);
+            if (s != null)
+                try {
+                    JSONObject obj = new JSONObject(s);
+                    movieList = new ArrayList<>();
 
-            try {
-                JSONObject obj = new JSONObject(s);
-                movieList = new ArrayList<>();
+                    JSONArray jsonArray = obj.getJSONArray("results");
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject objInJsonArray = jsonArray.optJSONObject(i);
+                        String setPoster_path = objInJsonArray.getString("poster_path");
+                        String setOriginal_title = objInJsonArray.getString("original_title");
+                        String setRelease_date = objInJsonArray.getString("release_date");
+                        Double setVote_average = objInJsonArray.getDouble("vote_average");
+                        String setOverview = objInJsonArray.getString("overview");
 
-                JSONArray jsonArray = obj.getJSONArray("results");
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    JSONObject objInJsonArray = jsonArray.optJSONObject(i);
-                    String setPoster_path = objInJsonArray.getString("poster_path");
-                    String setOriginal_title = objInJsonArray.getString("original_title");
-                    String setRelease_date = objInJsonArray.getString("release_date");
-                    Double setVote_average = objInJsonArray.getDouble("vote_average");
-                    String setOverview = objInJsonArray.getString("overview");
+                        Movie movieItem = new Movie(setPoster_path, setOriginal_title, setRelease_date, setVote_average, setOverview);
+                        movieList.add(movieItem);
 
-                    Movie movieItem = new Movie(setPoster_path, setOriginal_title, setRelease_date, setVote_average, setOverview);
-                    movieList.add(movieItem);
+                        MovieAdapter movieAdapter = new MovieAdapter(MainActivity.this, movieList);
+                        gridView.setAdapter(movieAdapter);
+                    }
 
-                    MovieAdapter movieAdapter = new MovieAdapter(MainActivity.this, movieList);
-                    gridView.setAdapter(movieAdapter);
+                    //Log.i(TAG, "MOVIE LIST SIZE:" + movieList.size());
+
+                } catch (final JSONException e) {
+                    e.printStackTrace();
                 }
-
-                //Log.i(TAG, "MOVIE LIST SIZE:" + movieList.size());
-
-            } catch (final JSONException e) {
-                e.printStackTrace();
-            }
         }
     }
 

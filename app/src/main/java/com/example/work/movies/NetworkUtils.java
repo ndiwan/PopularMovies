@@ -20,7 +20,7 @@ public class NetworkUtils {
     public static URL buildUrl(String sortCategory) {
 
         Uri builtUri = Uri.parse(Constants.MOVIE_BASE_URL).buildUpon()
-                .appendQueryParameter(Constants.SORT_BY, sortCategory)
+                .appendPath(sortCategory)
                 .appendQueryParameter(Constants.API_KEY, Constants.api_key_value)
                 .build();
 
@@ -44,8 +44,8 @@ public class NetworkUtils {
             urlConnection.setReadTimeout(10000);
             urlConnection.setConnectTimeout(15000);
             urlConnection.connect();
-            int response = urlConnection.getResponseCode();
-            Log.d(TAG, "The response is: " + response);
+           // int response = urlConnection.getResponseCode();
+           // Log.d(TAG, "The response is: " + response);
 
             InputStream in = urlConnection.getInputStream();
             Scanner scanner = new Scanner(in);
@@ -65,7 +65,7 @@ public class NetworkUtils {
         }
     }
 
-    // checks network connection
+    // checks for network connection
     public static Boolean isNetworkAvailable(Context context) {
 
         try {
